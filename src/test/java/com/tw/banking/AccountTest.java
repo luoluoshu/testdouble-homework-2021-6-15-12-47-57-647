@@ -1,53 +1,41 @@
 package com.tw.banking;
-
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class AccountTest {
-
     @Test
-    void should_call_addDeposit_when_invoke_deposit() {
-        //given
-        TransactionRepository transactionRepository = mock(TransactionRepository.class);
-        Printer printer = mock(Printer.class);
-        Account account = new Account(transactionRepository, printer);
-        int amount = 100;
-        //when
-        account.deposit(amount);
-        //then
-        verify(transactionRepository, times(1)).addDeposit(amount);
+    void should_invoke_addDeposit_amount_1_when_call_deposit_given_amount_1() {
+        TransactionRepository spyTransactionRepository = mock(TransactionRepository.class);
+        Account account = new Account(spyTransactionRepository, mock(Printer.class));
+        account.deposit(1);
+        verify(spyTransactionRepository, times(1)).addDeposit(1);
+    }
+    @Test
+    void should_invoke_addWithdraw_amount_1_when_call_withdraw_given_amount_1() {
+        TransactionRepository spyTransactionRepository = mock(TransactionRepository.class);
+        Account account = new Account(spyTransactionRepository, mock(Printer.class));
+        account.withdraw(1);
+
+        verify(spyTransactionRepository, times(1)).addWithdraw(1);
     }
 
     @Test
-    void should_call_addWithdraw_when_invoke_withdraw() {
-        //given
-        TransactionRepository transactionRepository = mock(TransactionRepository.class);
-        Printer printer = mock(Printer.class);
-        Account account = new Account(transactionRepository, printer);
-        int amount = 100;
-        //when
-        account.withdraw(amount);
-        //then
-        verify(transactionRepository, times(1)).addWithdraw(amount);
-    }
+    void should_invoke_print_stub_transactions_when_call_printStatement() {
+        TransactionRepository stubTransactionRepository = mock(TransactionRepository.class);
+        Printer spyPrinter = mock(Printer.class);
+        Account account = new Account(stubTransactionRepository, spyPrinter);
+        List<Transaction> stubTransactions = new ArrayList<>();
+        when(stubTransactionRepository.allTransactions()).thenReturn(stubTransactions);
 
-    @Test
-    void should_call_print_and_parameter_is_same_with_the_result_of_addTransactions_when_invoke_printStatement() {
-        //given
-        TransactionRepository transactionRepository = mock(TransactionRepository.class);
-        Printer printer = mock(Printer.class);
-        Account account = new Account(transactionRepository, printer);
-        List<Transaction> transactions = Collections.singletonList(new Transaction("date", 100));
-        given(transactionRepository.allTransactions()).willReturn(transactions);
-        //when
         account.printStatement();
-        //then
-        verify(printer, times(1)).print(transactions);
+
+        verify(spyPrinter, times(1)).print(stubTransactions);
     }
 }
