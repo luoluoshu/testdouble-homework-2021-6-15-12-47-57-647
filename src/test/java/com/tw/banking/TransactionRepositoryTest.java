@@ -12,15 +12,12 @@ class TransactionRepositoryTest {
 
     @Test
     void should_return_transaction_with_same_amount_when_invoke_addDeposit() {
-        //given
         Clock clock = mock(Clock.class);
         TransactionRepository transactionRepository = new TransactionRepository(clock);
         int mockedAmount = 100;
-        String mockedTodayString = "Mocked Today String";
+        String mockedTodayString = "Good Mocked";
         given(clock.todayAsString()).willReturn(mockedTodayString);
-        //when
         transactionRepository.addDeposit(mockedAmount);
-        //then
         List<Transaction> result = transactionRepository.transactions;
         assertSame(1, result.size());
         assertEquals(mockedTodayString, result.get(0).date());
@@ -29,15 +26,12 @@ class TransactionRepositoryTest {
 
     @Test
     void should_return_transaction_with_negative_amount_when_invoke_addWithdraw() {
-        //given
         Clock clock = mock(Clock.class);
         TransactionRepository transactionRepository = new TransactionRepository(clock);
         int mockedAmount = 100;
-        String mockedTodayString = "Mocked Today String";
+        String mockedTodayString = "Good Mocked";
         given(clock.todayAsString()).willReturn(mockedTodayString);
-        //when
         transactionRepository.addWithdraw(mockedAmount);
-        //then
         List<Transaction> result = transactionRepository.transactions;
         assertSame(1, result.size());
         assertEquals(mockedTodayString, result.get(0).date());

@@ -17,8 +17,8 @@ class ConsoleTest {
         System.setOut(spyPrintStream);
         Console console = new Console();
 
-        console.printLine("hello");
+        console.printLine("hello Thomas");
 
-        verify(spyPrintStream, times(1)).println("hello");
+        verify(spyPrintStream, times(1)).println("hello Thomas");
     }
 }
